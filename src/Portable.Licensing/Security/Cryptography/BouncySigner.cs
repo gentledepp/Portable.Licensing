@@ -1,4 +1,4 @@
-﻿#if NET452 || NETSTANDARD2_0
+﻿#if NET452 || NETSTANDARD2_0 || NET9_0_OR_GREATER
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Security;
 
