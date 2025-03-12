@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0</TargetFrameworks>
+		<TargetFrameworks>net452;net5.0;net9.0</TargetFrameworks>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-		<TargetFrameworks>net452;net5.0</TargetFrameworks>
-	</PropertyGroup>
+<!--	<PropertyGroup Condition="'$(OS)' == 'Windows_NT'">-->
+<!--		<TargetFrameworks>net452;net5.0;net9.0</TargetFrameworks>-->
+<!--	</PropertyGroup>-->
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />

@@ -1,4 +1,4 @@
-﻿#if NET5_0 || NET6_0 || NET7_0 || NET8_0 || NET9_0
+﻿#if NET5_0_OR_GREATER
 using System;
 using System.Security.Cryptography;
 
@@ -17,7 +17,7 @@ namespace Portable.Licensing.Security.Cryptography
                 try 
                 {
                     // Try with explicit format first (works in .NET 5.0-8.0)
-#if NET5_0 || NET6_0 || NET7_0 || NET8_0
+#if NET5_0_OR_GREATER
                     return ecdsa.SignData(documentToSign, HashAlgorithmName.SHA512, DSASignatureFormat.Rfc3279DerSequence);
 #else
                     // Use the simpler overload for .NET 9.0 which handles format internally
@@ -58,7 +58,7 @@ namespace Portable.Licensing.Security.Cryptography
                 try
                 {
                     // Try with explicit format first (works in .NET 5.0-8.0)
-#if NET5_0 || NET6_0 || NET7_0 || NET8_0
+#if NET5_0_OR_GREATER
                     return ecdsa.VerifyData(documentToSign, signature, HashAlgorithmName.SHA512, DSASignatureFormat.Rfc3279DerSequence);
 #else
                     // Use the simpler overload for .NET 9.0 which handles format internally

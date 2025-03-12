@@ -245,41 +245,6 @@ namespace Portable.Licensing
             }
         }
         
-
-        // Manual validation method as a fallback for ASN1 errors
-        public bool ValidateSignatureManually(string publicKey)
-        {
-            try
-            {
-                // Get the original license XML without the signature
-                var licenseXml = this.ToString();
-                var xmlDoc = System.Xml.Linq.XDocument.Parse(licenseXml);
-                var signatureElement = xmlDoc.Root.Element("Signature");
-                
-                if (signatureElement == null)
-                    return false;
-                
-                // Save and remove the signature
-                string signatureBase64 = signatureElement.Value;
-                byte[] signature = Convert.FromBase64String(signatureBase64);
-                signatureElement.Remove();
-                
-                // Get the license data to verify
-                byte[] licenseData = System.Text.Encoding.UTF8.GetBytes(
-                    xmlDoc.ToString(System.Xml.Linq.SaveOptions.DisableFormatting));
-                
-                // Try to import the public key (multiple formats)
-                var signer = Signer.Create();
-                return signer.VerifySignature(licenseData, signature, publicKey);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Manual validation failed: {ex.Message}");
-                return false;
-            }
-        }
-        
-
         /// <summary>
         /// Create a new <see cref="License"/> using the <see cref="ILicenseBuilder"/>
         /// fluent api.

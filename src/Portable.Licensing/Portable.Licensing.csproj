@@ -13,6 +13,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<Version>1.2.15</Version>
 		<Description>Portable.Licensing is a cross platform software licensing framework which allows you to implement licensing into your application or library. It provides you all tools to create and validate licenses for your software.
 
 Portable.Licensing is uses cryptographic algorithms to help you ensure that your software is protected.</Description>
@@ -26,7 +27,6 @@ Portable.Licensing is uses cryptographic algorithms to help you ensure that your
 		<Reference Include="System.Security" />
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
-
 		<PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
 	</ItemGroup>
 
