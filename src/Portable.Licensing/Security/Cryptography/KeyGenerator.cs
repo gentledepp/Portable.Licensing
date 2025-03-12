@@ -14,7 +14,7 @@
         /// <summary>
         /// Generates a private/public key pair for license signing.
         /// </summary>
-        /// <returns>An <see cref="BouncyKeyPair"/> containing the keys.</returns>
+        /// <returns>A KeyPair containing the keys.</returns>
         public abstract KeyPair GenerateKeyPair();
     }
 }

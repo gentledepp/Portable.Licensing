@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<Authors>Nauck IT KG</Authors>
-		<TargetFrameworks>net452;netstandard2.0;net5.0</TargetFrameworks>
+		<TargetFrameworks>net452;netstandard2.0;net5.0;net9.0</TargetFrameworks>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AssemblyName>CoreCompat.Portable.Licensing</AssemblyName>
 		<AssemblyOriginatorKeyFile>Portable.Licensing.snk</AssemblyOriginatorKeyFile>

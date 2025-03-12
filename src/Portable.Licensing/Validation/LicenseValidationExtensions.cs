@@ -26,6 +26,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 
 namespace Portable.Licensing.Validation
 {
@@ -107,24 +108,42 @@ namespace Portable.Licensing.Validation
 
             return validationChainBuilder;
         }
-
+        
         /// <summary>
-        /// Validates the <see cref="License.Signature"/>.
+        /// Validates the license signature using a wrapper method that handles .NET 9.0 compatibility issues.
         /// </summary>
-        /// <param name="validationChain">The current <see cref="IStartValidationChain"/>.</param>
-        /// <param name="publicKey">The public product key to validate the signature..</param>
-        /// <returns>An instance of <see cref="IStartValidationChain"/>.</returns>
+        /// <param name="validationChain">The validation chain to extend.</param>
+        /// <param name="publicKey">The XML-formatted public key to use for signature verification.</param>
+        /// <returns>A validation chain to continue validation with other checks.</returns>
         public static IValidationChain Signature(this IStartValidationChain validationChain, string publicKey)
         {
             var validationChainBuilder = (validationChain as ValidationChainBuilder);
             var validator = validationChainBuilder.StartValidatorChain();
-            validator.Validate = license => license.VerifySignature(publicKey);
+            
+            // Define validation logic that handles potential ASN.1 format issues
+            validator.Validate = license =>
+            {
+                try
+                {
+                    // Try standard verification first
+                    return license.VerifySignature(publicKey);
+                }
+                catch (CryptographicException ex) when (ex.Message.Contains("ASN1"))
+                {
+                    // Log the exception for debugging
+                    Console.WriteLine($"ASN1 error during signature validation: {ex.Message}");
+                    
+                    // Try again with a custom validator approach
+                    // This is a workaround for .NET 9.0 compatibility
+                    return license.ValidateSignatureManually(publicKey);
+                }
+            };
 
             validator.FailureResult = new InvalidSignatureValidationFailure()
-                                          {
-                                              Message = "License signature validation error!",
-                                              HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
-                                          };
+            {
+                Message = "License signature validation error!",
+                HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
+            };
 
             return validationChainBuilder;
         }

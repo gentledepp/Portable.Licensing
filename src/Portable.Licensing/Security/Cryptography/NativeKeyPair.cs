@@ -1,4 +1,4 @@
-﻿#if NET5_0
+﻿#if NET5_0 || NET6_0 || NET7_0 || NET8_0 || NET9_0
 using System;
 using System.Security.Cryptography;
 
@@ -20,8 +20,32 @@ namespace Portable.Licensing.Security.Cryptography
         /// <returns>The encrypted private key.</returns>
         public override string ToEncryptedPrivateKeyString(string passPhrase)
         {
-            var data = this.algorithm.ExportEncryptedPkcs8PrivateKey(passPhrase, new PbeParameters(PbeEncryptionAlgorithm.TripleDes3KeyPkcs12, HashAlgorithmName.SHA1, 10));
-            return Convert.ToBase64String(data);
+            try
+            {
+                // Try standard PKCS8 export with triple DES encryption
+                var data = this.algorithm.ExportEncryptedPkcs8PrivateKey(
+                    passPhrase, 
+                    new PbeParameters(PbeEncryptionAlgorithm.TripleDes3KeyPkcs12, HashAlgorithmName.SHA1, 10)
+                );
+                return Convert.ToBase64String(data);
+            }
+            catch (CryptographicException ex)
+            {
+                // If triple DES fails, try with AES
+                try
+                {
+                    var data = this.algorithm.ExportEncryptedPkcs8PrivateKey(
+                        passPhrase,
+                        new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, 10)
+                    );
+                    return Convert.ToBase64String(data);
+                }
+                catch
+                {
+                    // Re-throw the original exception if alternative encryption fails
+                    throw ex;
+                }
+            }
         }
 
         /// <summary>
