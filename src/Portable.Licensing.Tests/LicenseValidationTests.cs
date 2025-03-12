@@ -26,6 +26,7 @@
 using Portable.Licensing.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using Portable.Licensing.Security.Cryptography;
 using Xunit;
 
 namespace Portable.Licensing.Tests
@@ -77,7 +78,26 @@ namespace Portable.Licensing.Tests
             Assert.NotNull(validationResults);
             Assert.Empty(validationResults);
         }
+        
+#if NET9_0_OR_GREATER
+       
+        [Fact]
+        public void CanConvertKeys()
+        {
+            var bouncyPublicKey =
+            "";
 
+            // Convert a BouncySigner public key to NativeSigner format
+            string nativePublicKey = BouncyNativeConverter.ConvertToNativeFormat(bouncyPublicKey);
+
+// Check if a key is already compatible with NativeSigner
+            bool isCompatible = BouncyNativeConverter.IsNativeCompatible(bouncyPublicKey);
+
+// Get information about a key (type, parameters, etc.)
+            string keyInfo = BouncyNativeConverter.GetKeyInfo(bouncyPublicKey);
+        }
+        
+    #endif
         public static IEnumerable<object[]> Can_Validate_Invalid_Signature_Data()
         {
 #if NET452
