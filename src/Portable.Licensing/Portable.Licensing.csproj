@@ -1,21 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Authors>Nauck IT KG</Authors>
-		<TargetFrameworks>net452;netstandard2.0;net5.0;net9.0</TargetFrameworks>
+		<Authors>Opti-Q GmbH</Authors>
+		<TargetFrameworks>net452;netstandard2.0;net5.0;net9.0;net9.0-ios</TargetFrameworks>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AssemblyName>CoreCompat.Portable.Licensing</AssemblyName>
 		<AssemblyOriginatorKeyFile>Portable.Licensing.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>true</SignAssembly>
 		<PackageId>CoreCompat.Portable.Licensing</PackageId>
 		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.5' ">$(PackageTargetFallback);dotnet</PackageTargetFallback>
-		<PackageTags>Portable.Licensing Portable Licensing License Key KeyGenerator Protection Signing Nauck</PackageTags>
+		<PackageTags>Opti-Q Portable.Licensing Portable Licensing License Key KeyGenerator Protection Signing Nauck</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<Version>1.2.15</Version>
 		<Description>Portable.Licensing is a cross platform software licensing framework which allows you to implement licensing into your application or library. It provides you all tools to create and validate licenses for your software.
-
 Portable.Licensing is uses cryptographic algorithms to help you ensure that your software is protected.</Description>
 	</PropertyGroup>
 
