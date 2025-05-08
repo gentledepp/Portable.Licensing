@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Portable.Licensing.Security.Cryptography
 {
-    internal class NativeSigner : Signer
+    public class NativeSigner : Signer
     {
         public override byte[] Sign(byte[] documentToSign, string privateKey, string passPhrase)
         {

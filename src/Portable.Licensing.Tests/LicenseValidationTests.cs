@@ -26,6 +26,7 @@
 using Portable.Licensing.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Portable.Licensing.Security.Cryptography;
 using Xunit;
 
@@ -78,26 +79,35 @@ namespace Portable.Licensing.Tests
             Assert.NotNull(validationResults);
             Assert.Empty(validationResults);
         }
-        
+
 #if NET9_0_OR_GREATER
-       
+
         [Fact]
         public void CanConvertKeys()
         {
-            var bouncyPublicKey =
-            "";
+            var privateKeyPassword = "pass@word!";
+            var bouncyKeyPair = new BouncyKeyGenerator().GenerateKeyPair();
+            var bouncyPublicKey = bouncyKeyPair.ToPublicKeyString();
+            var bouncyPrivateKey = bouncyKeyPair.ToEncryptedPrivateKeyString(privateKeyPassword);
 
+            // Act
             // Convert a BouncySigner public key to NativeSigner format
             string nativePublicKey = BouncyNativeConverter.ConvertToNativeFormat(bouncyPublicKey);
 
-// Check if a key is already compatible with NativeSigner
-            bool isCompatible = BouncyNativeConverter.IsNativeCompatible(bouncyPublicKey);
+            // Assert
 
-// Get information about a key (type, parameters, etc.)
-            string keyInfo = BouncyNativeConverter.GetKeyInfo(bouncyPublicKey);
+            // Check if a key is already compatible with NativeSigner
+            bool isCompatible = BouncyNativeConverter.IsNativeCompatible(bouncyPublicKey);
+            Assert.True(isCompatible);
+
+            var doc = Encoding.UTF8.GetBytes("Please sign me I am a n important document");
+            var bouncySignature = BouncySigner.Create().Sign(doc, bouncyPrivateKey, privateKeyPassword);
+            var signatureIsValid = NativeSigner.Create().VerifySignature(doc, bouncySignature, nativePublicKey);
+
+            Assert.True(signatureIsValid);
         }
-        
-    #endif
+
+#endif
         public static IEnumerable<object[]> Can_Validate_Invalid_Signature_Data()
         {
 #if NET452

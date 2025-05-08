@@ -4,7 +4,7 @@ using Org.BouncyCastle.Security;
 
 namespace Portable.Licensing.Security.Cryptography
 {
-    class BouncySigner : Signer
+    public class BouncySigner : Signer
     {
         private readonly string signatureAlgorithm = X9ObjectIdentifiers.ECDsaWithSha512.Id;
 

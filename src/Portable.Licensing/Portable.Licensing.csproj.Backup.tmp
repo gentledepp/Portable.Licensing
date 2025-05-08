@@ -33,12 +33,6 @@ Portable.Licensing is uses cryptographic algorithms to help you ensure that your
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="NewFolder\**" />
-	  <EmbeddedResource Remove="NewFolder\**" />
-	  <None Remove="NewFolder\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Portable.BouncyCastle" Version="2.0.219-beta.g235d2afab3" />
 		<PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
